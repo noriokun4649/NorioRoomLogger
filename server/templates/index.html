@@ -1,0 +1,366 @@
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.js" integrity="sha256-8AdWdyRXkrETyAGla9NmgkYVlqw4MOHR6sJJmtFGAYQ=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js" integrity="sha256-Y26AMvaIfrZ1EQU49pf6H4QzVTrOI8m9wQYKkftBt4s=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.0/dist/chartjs-adapter-moment.min.js" integrity="sha256-sFB24K2xU2EOgWAtb3ySAGjhMqcUvUJGmwjDcTQa04k=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div style="display: grid;
+    grid-template-columns: 800px 800px;">
+        <div style="width: 800px;">
+            <canvas id="tempAndhum"></canvas>
+        </div>
+        <div style="width: 800px;">
+            <canvas id="press"></canvas>
+        </div>
+        <div style="width: 800px;">
+            <canvas id="light"></canvas>
+        </div>
+        <div style="width: 800px;">
+            <canvas id="co2"></canvas>
+        </div>
+        <div style="width: 800px;">
+            <canvas id="uva"></canvas>
+        </div>
+        <div style="width: 800px;">
+            <canvas id="uvb"></canvas>
+        </div>
+        <div style="width: 800px;">
+            <canvas id="uvindex"></canvas>
+        </div>
+        <div style="width: 800px;">
+            <canvas id="voc"></canvas>
+        </div>
+    </div>
+
+
+    <script>
+        let main_label = {{ main_label | tojson }};
+        let temp = {{ temp | tojson }};
+        let press = {{ press | tojson }};
+        let hum = {{ hum | tojson }};
+        let light = {{ light | tojson }};
+        let co2 = {{ co2 | tojson }};
+        let uva = {{ uva | tojson }};
+        let uvb = {{ uvb | tojson }};
+        let uvindex = {{ uvindex | tojson }};
+        let voc = {{ voc | tojson }};
+        let ctxtempAndhum = document.getElementById('tempAndhum');
+        let ctxpress = document.getElementById('press');
+        let ctxlight = document.getElementById('light');
+        let ctxco2 = document.getElementById('co2');
+        let ctxuva = document.getElementById('uva');
+        let ctxuvb = document.getElementById('uvb');
+        let ctxuvindex = document.getElementById('uvindex');
+        let ctxvoc = document.getElementById('voc');
+
+        let myCharttempAndhum = new Chart(ctxtempAndhum, {
+            
+            type: 'line',
+            
+            data: {
+                
+                labels: main_label,
+                
+                datasets: [{
+                    yAxisID: 'temp',
+                    label: '気温',
+                    data: temp,
+                    borderColor: 'rgba(255, 99, 132, 1)', 
+                    backgroundColor: 'rgba(255, 99, 132, 0.1)' 
+                }, {
+                    yAxisID: 'hum',
+                    label: '湿度',
+                    data: hum,
+                    borderColor: 'rgba(132, 99, 255, 1)', 
+                    backgroundColor: 'rgba(255, 99, 132, 0.1)' 
+                }]
+            },
+            options: {
+                scales: {
+                    'temp': {
+                        type: "linear",
+                        position: "left",
+                        title: {
+                            display: true,
+                            text: '気温[℃]'
+                        }
+                    },
+                    'hum': {
+                        position: "right",
+                        type: "linear",
+                        title: {
+                            display: true,
+                            text: '湿度[%]'
+                        }
+                    },
+                    x: {
+                        type: 'time',
+                        display: true,
+                        title: {
+                            display: true,
+                            text: '時間'
+                        },
+                    },
+                }
+            }
+
+        });
+        let myChartpress = new Chart(ctxpress, {
+            
+            type: 'line',
+            
+            data: {
+                
+                labels: main_label,
+                
+                datasets: [{
+                    label: '気圧',
+                    data: press,
+                    borderColor: 'rgba(99, 255, 132, 1)', 
+                    backgroundColor: 'rgba(255, 99, 132, 0.1)' 
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        type: "linear",
+                        position: "left",
+                        title: {
+                            display: true,
+                            text: '気圧[hPa]'
+                        }
+                    },
+                    x: {
+                        type: 'time',
+                        display: true,
+                        title: {
+                            display: true,
+                            text: '時間'
+                        },
+                    },
+                }
+            }
+        });
+        let myChartlight = new Chart(ctxlight, {
+            
+            type: 'line',
+            
+            data: {
+                
+                labels: main_label,
+                
+                datasets: [{
+                    label: '明るさ',
+                    data: light,
+                    borderColor: 'rgba(255,132 ,99 , 1)', 
+                    backgroundColor: 'rgba(255, 99, 132, 0.1)' 
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        type: "linear",
+                        position: "left",
+                        title: {
+                            display: true,
+                            text: '明るさ[lux]'
+                        }
+                    },
+                    x: {
+                        type: 'time',
+                        display: true,
+                        title: {
+                            display: true,
+                            text: '時間'
+                        },
+                    },
+                }
+            }
+        });
+        let myChartco2 = new Chart(ctxco2, {
+            
+            type: 'line',
+            
+            data: {
+                
+                labels: main_label,
+                
+                datasets: [{
+                    label: '二酸化炭素濃度',
+                    data: co2,
+                    borderColor: 'rgba(132,255 ,99 , 1)', 
+                    backgroundColor: 'rgba(255, 99, 132, 0.1)' 
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        type: "linear",
+                        position: "left",
+                        title: {
+                            display: true,
+                            text: '二酸化炭素濃度[ppm]'
+                        }
+                    },
+                    x: {
+                        type: 'time',
+                        display: true,
+                        title: {
+                            display: true,
+                            text: '時間'
+                        },
+                    },
+                }
+            }
+        });
+        let myChartuva = new Chart(ctxuva, {
+            
+            type: 'line',
+            
+            data: {
+                
+                labels: main_label,
+                
+                
+                datasets: [{
+                    label: '紫外線(UV-A)',
+                    data: uva,
+                    borderColor: 'rgba(255, 99, 132, 1)', 
+                    backgroundColor: 'rgba(255, 99, 132, 0.1)' 
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        type: "linear",
+                        position: "left",
+                        title: {
+                            display: true,
+                            text: 'UV-A[mW/㎡]'
+                        }
+                    },
+                    x: {
+                        type: 'time',
+                        display: true,
+                        title: {
+                            display: true,
+                            text: '時間'
+                        },
+                    },
+                }
+            }
+        });
+        let myChartuvb = new Chart(ctxuvb, {
+            
+            type: 'line',
+            
+            data: {
+                
+                labels: main_label,
+                
+                
+                datasets: [{
+                    label: '紫外線(UV-B)',
+                    data: uvb,
+                    borderColor: 'rgba(132, 99, 255, 1)', 
+                    backgroundColor: 'rgba(255, 99, 132, 0.1)' 
+                    }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        type: "linear",
+                        position: "left",
+                        title: {
+                            display: true,
+                            text: 'UV-B[mW/㎡]'
+                        }
+                    },
+                    x: {
+                        type: 'time',
+                        display: true,
+                        title: {
+                            display: true,
+                            text: '時間'
+                        },
+                    },
+                }
+            }
+        });
+        let myChartuvindex = new Chart(ctxuvindex, {
+            
+            type: 'line',
+            
+            data: {
+                
+                labels: main_label,
+                
+                
+                datasets: [{
+                    label: '紫外線(インデックス)',
+                    data: uvindex,
+                    borderColor: 'rgba(255, 99, 132, 1)', 
+                    backgroundColor: 'rgba(255, 99, 132, 0.1)' 
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        type: "linear",
+                        position: "left",
+                        title: {
+                            display: true,
+                            text: 'UVインデックス'
+                        }
+                    },
+                    x: {
+                        type: 'time',
+                        display: true,
+                        title: {
+                            display: true,
+                            text: '時間'
+                        },
+                    },
+                }
+            }
+        });
+        let myChartvoc = new Chart(ctxvoc, {
+            
+            type: 'line',
+            
+            data: {
+                
+                labels: main_label,
+                
+                datasets: [{
+                    label: '揮発性有機化合物',
+                    data: voc,
+                    borderColor: 'rgba(132,255 ,99 , 1)', 
+                    backgroundColor: 'rgba(255, 99, 132, 0.1)' 
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        type: "linear",
+                        position: "left",
+                        title: {
+                            display: true,
+                            text: 'VOCインデックス'
+                        }
+                    },
+                    x: {
+                        type: 'time',
+                        display: true,
+                        title: {
+                            display: true,
+                            text: '時間'
+                        },
+                    },
+                }
+            }
+        });
+    </script>
+
+</body>

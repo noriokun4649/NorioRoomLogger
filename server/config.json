@@ -1,0 +1,16 @@
+{
+  "listeners": {
+    "*:8080": {
+      "pass": "applications/flask"
+    }
+  },
+  "applications": {
+    "flask": {
+      "type": "python 3.6",
+      "path": "/home/noriokun4649/flask/",
+      "home": "/home/noriokun4649/flask/venv/",
+      "module": "main",
+      "callable": "app"
+    }
+  }
+}
