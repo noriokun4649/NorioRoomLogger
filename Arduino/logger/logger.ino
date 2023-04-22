@@ -24,8 +24,8 @@ uint8_t i2c_addr = 0x76; // I2C Address
 
 // MH-Z19 Co2 Sensor
 MHZ19_uart mhz19;
-const int rx_pin = 14; // Serial rx pin no
-const int tx_pin = 12; // Serial tx pin no
+const int rx_pin = 12; // Serial rx pin no
+const int tx_pin = 14; // Serial tx pin no
 
 // Wi-Fi Setting
 ESP8266WiFiMulti WiFiMulti;
